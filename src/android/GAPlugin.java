@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import com.google.analytics.tracking.android.GAServiceManager;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
+import com.google.analytics.tracking.android.Transaction;
 
 public class GAPlugin extends CordovaPlugin {
 	@Override
@@ -48,6 +49,45 @@ public class GAPlugin extends CordovaPlugin {
 			} catch (final Exception e) {
 				callback.error(e.getMessage());
 			}
+			
+		/*
+		 * Track e-commerce transactions
+		 * args = [transactionID, affiliation, revenue, tax, shipping, currencyCode]
+		 * 
+		 * @author Neil Rackett
+		 */
+		}
+		else if (action.equals("trackTransaction")) 
+		{
+            try 
+            {
+            	Transaction trans = new Transaction.Builder(
+            		args.getString(0),											// (String) Transaction Id, should be unique.
+            	    (long) args.getDouble(2)*1000000)							// (long) Order total (in micros)
+            	    .setAffiliation(args.getString(1))							// (String) Affiliation
+            	    .setTotalTaxInMicros((long) args.getDouble(3)*1000000)		// (long) Total tax (in micros)
+            	    .setShippingCostInMicros((long) args.getDouble(4)*1000000)	// (long) Total shipping cost (in micros)
+            	    .setCurrencyCode(args.getString(5))							// (String) Currency code
+            	    .build();
+            	
+                tracker.sendTransaction(trans);
+                
+                callback.success
+                (
+                    "trackEcommerceTransaction - Transaction ID = "+ args.getString(0) +
+                    " Affiliation "+args.getString(1) +
+                    " Revenue " + args.getDouble(2)+
+                    " Tax " +   args.getDouble(3)+
+                    " Shipping " + args.getDouble(4)+
+                    " Currency code " + args.getString(5)
+                );
+                
+                return true;
+                
+            } catch(final Exception e){
+                callback.error(e.getMessage());
+            }
+            
 		} else if (action.equals("setVariable")) {
 			try {
 				tracker.setCustomDimension(args.getInt(0), args.getString(1));
@@ -75,6 +115,7 @@ public class GAPlugin extends CordovaPlugin {
 				callback.error(e.getMessage());
 			}
 		}
+		
 		return false;
 	}
 }

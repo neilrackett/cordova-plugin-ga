@@ -43,7 +43,15 @@
     GAPlugin.prototype.exit = function(success, fail) {
         return cordovaRef.exec(success, fail, 'GAPlugin', 'exitGA', []);
     };
- 
+    
+    /**
+	 * Track e-commerce transactions
+     * @author Neil Rackett
+     */
+    GAPlugin.prototype.trackTransaction = function(success, fail, transactionID, affiliation, revenue, tax, shipping, currencyCode) {
+        return cordovaRef.exec(success, fail, 'GAPlugin', 'trackTransaction', [transactionID, affiliation, revenue, tax, shipping, currencyCode]);
+    };
+    
     if (cordovaRef && cordovaRef.addConstructor) {
         cordovaRef.addConstructor(init);
     }
