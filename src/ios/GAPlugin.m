@@ -92,9 +92,6 @@
                                                              tax:[numFormatter numberFromString:[command.arguments objectAtIndex:3]] * @1000000                 // (NSNumber) Tax
                                                         shipping:[numFormatter numberFromString:[command.arguments objectAtIndex:4]] * @1000000                      // (NSNumber) Shipping
                                                     currencyCode:[[command.arguments objectAtIndex:5]] build]];        // (NSString) Currency code
-
-    // Release the num formatter from memory
-    [numFormatter release];    
 }
 
 
