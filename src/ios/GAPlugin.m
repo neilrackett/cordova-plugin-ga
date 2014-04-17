@@ -83,11 +83,11 @@
     [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     
     GAITransaction *transaction =
-    [GAITransaction transactionWithId:[[command.arguments objectAtIndex:0]            // (NSString) Transaction ID, should be unique.
-                      withAffiliation:[[command.arguments objectAtIndex:1]];      // (NSString) Affiliation
-    transaction.taxMicros = (int64_t)([numFormatter numberFromString:[command.arguments objectAtIndex:3]] * @1000000);           // (int64_t) Total tax (in micros)
-    transaction.shippingMicros = (int64_t)([numFormatter numberFromString:[command.arguments objectAtIndex:4]] * @1000000);                   // (int64_t) Total shipping (in micros)
-    transaction.revenueMicros = (int64_t)([numFormatter numberFromString:[command.arguments objectAtIndex:2]] * @1000000);       // (int64_t) Total revenue (in micros)
+    [GAITransaction transactionWithId:[command.arguments objectAtIndex:0]            // (NSString) Transaction ID, should be unique.
+                      withAffiliation:[command.arguments objectAtIndex:1]];      // (NSString) Affiliation
+    transaction.taxMicros = (int64_t)([[numFormatter numberFromString:[command.arguments objectAtIndex:3]] doubleValue] * 1000000);           // (int64_t) Total tax (in micros)
+    transaction.shippingMicros = (int64_t)([[numFormatter numberFromString:[command.arguments objectAtIndex:4]] doubleValue] * 1000000);                   // (int64_t) Total shipping (in micros)
+    transaction.revenueMicros = (int64_t)([[numFormatter numberFromString:[command.arguments objectAtIndex:2]] doubleValue] * 1000000);       // (int64_t) Total revenue (in micros)
     
     [[GAI sharedInstance].defaultTracker sendTransaction:transaction]; // Send the transaction.
 }
