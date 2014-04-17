@@ -74,7 +74,7 @@ public class GAPlugin extends CordovaPlugin {
                 
                 callback.success
                 (
-                    "trackEcommerceTransaction - Transaction ID = "+ args.getString(0) +
+                    "trackTransaction - Transaction ID = "+ args.getString(0) +
                     " Affiliation "+args.getString(1) +
                     " Revenue " + args.getDouble(2)+
                     " Tax " +   args.getDouble(3)+
