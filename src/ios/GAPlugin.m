@@ -79,15 +79,23 @@
 - (void) trackTransaction:(CDVInvokedUrlCommand*)command
 {
     // Num formatter
+    
+    
     NSNumberFormatter * numFormatter = [[NSNumberFormatter alloc] init];
     [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     
+    NSString *transactionID     =  [command.arguments objectAtIndex:0];
+    NSString *affiliation    =  [command.arguments objectAtIndex:1];
+    NSNumber *totalTax         =  [command.arguments objectAtIndex:3];
+    NSNumber *totalShipping    =  [command.arguments objectAtIndex:4];
+    NSNumber *totalRevenue    =  [command.arguments objectAtIndex:2];
+    
     GAITransaction *transaction =
-    [GAITransaction transactionWithId:[command.arguments objectAtIndex:0]            // (NSString) Transaction ID, should be unique.
-                      withAffiliation:[command.arguments objectAtIndex:1]];      // (NSString) Affiliation
-    transaction.taxMicros = (int64_t)([[numFormatter numberFromString:[command.arguments objectAtIndex:3]] doubleValue] * 1000000);           // (int64_t) Total tax (in micros)
-    transaction.shippingMicros = (int64_t)([[numFormatter numberFromString:[command.arguments objectAtIndex:4]] doubleValue] * 1000000);                   // (int64_t) Total shipping (in micros)
-    transaction.revenueMicros = (int64_t)([[numFormatter numberFromString:[command.arguments objectAtIndex:2]] doubleValue] * 1000000);       // (int64_t) Total revenue (in micros)
+    [GAITransaction transactionWithId:transactionID            // (NSString) Transaction ID, should be unique.
+                      withAffiliation:affiliation];      // (NSString) Affiliation
+    transaction.taxMicros = (int64_t)([totalTax doubleValue] * 1000000);           // (int64_t) Total tax (in micros)
+    transaction.shippingMicros = (int64_t)([totalShipping doubleValue] * 1000000);                   // (int64_t) Total shipping (in micros)
+    transaction.revenueMicros = (int64_t)([totalRevenue doubleValue] * 1000000);       // (int64_t) Total revenue (in micros)
     
     [[GAI sharedInstance].defaultTracker sendTransaction:transaction]; // Send the transaction.
 }
