@@ -72,6 +72,32 @@
         [self failWithMessage:@"trackPage failed - not initialized" toID:callbackId withError:nil];
 }
 
+/*
+ * Track e-commerce transactions
+ * args = [string transactionID, string affiliation, Number revenue, Number tax, Number shipping,String currencyCode]
+ */
+- (void) trackTransaction:(CDVInvokedUrlCommand*)command
+{
+    // Num formatter
+    NSNumberFormatter * numFormatter = [[NSNumberFormatter alloc] init];
+    [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    
+    // Assumes a tracker has already been initialized with a property ID, otherwise
+    // this call returns null.
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    
+    [tracker send:[[GAIDictionaryBuilder createTransactionWithId:[[command.arguments objectAtIndex:0]             // (NSString) Transaction ID
+                                                     affiliation:[[command.arguments objectAtIndex:1]         // (NSString) Affiliation
+                                                         revenue:[numFormatter numberFromString:[command.arguments objectAtIndex:2]] * @1000000                  // (NSNumber) Order revenue (including tax and shipping)
+                                                             tax:[numFormatter numberFromString:[command.arguments objectAtIndex:3]] * @1000000                 // (NSNumber) Tax
+                                                        shipping:[numFormatter numberFromString:[command.arguments objectAtIndex:4]] * @1000000                      // (NSNumber) Shipping
+                                                    currencyCode:[[command.arguments objectAtIndex:5]] build]];        // (NSString) Currency code
+
+    // Release the num formatter from memory
+    [numFormatter release];    
+}
+
+
 - (void) setVariable:(CDVInvokedUrlCommand*)command
 {
     NSString            *callbackId = command.callbackId;

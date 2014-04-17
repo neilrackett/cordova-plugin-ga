@@ -18,6 +18,7 @@
 - (void) exitGA:(CDVInvokedUrlCommand*)command;
 - (void) trackEvent:(CDVInvokedUrlCommand*)command;
 - (void) trackPage:(CDVInvokedUrlCommand*)command;
+- (void) trackTransaction:(CDVInvokedUrlCommand*)command;
 - (void) setVariable:(CDVInvokedUrlCommand*)command;
 
 @end
