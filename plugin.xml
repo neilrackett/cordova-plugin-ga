@@ -35,7 +35,7 @@
         <source-file src="src/android/libGoogleAnalyticsV2.jar" target-dir="libs" />
         
     </platform>
-
+    
     <platform name="ios">
         
         <config-file target="config.xml" parent="/*">
@@ -44,16 +44,15 @@
           </feature>
         </config-file>
 
-        <source-file src="src/ios/GAPlugin.m" />
-        <source-file src="src/ios/GoogleAnalytics.a" framework="true" />
-
         <header-file src="src/ios/GAITransactionItem.h" />
         <header-file src="src/ios/GAITransaction.h" />
         <header-file src="src/ios/GAITracker.h" />
         <header-file src="src/ios/GAITrackedViewController.h" />
         <header-file src="src/ios/GAI.h" />
         <header-file src="src/ios/GAPlugin.h" />
-
+        <source-file src="src/ios/GAPlugin.m" />
+        <source-file src="src/ios/GoogleAnalytics.a" framework="true" />
+        
         <framework src="CoreData.framework" />
         <framework src="SystemConfiguration.framework" />
         
