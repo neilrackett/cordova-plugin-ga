@@ -9,11 +9,11 @@ Before you can begin collecting metrics data, you need to set up a GoogleAnalyti
 
 ### PhoneGap
 
-`phonegap local plugin install https://github.com/neilrackett/phonegap-ga-plugin`
+`phonegap local plugin add https://github.com/neilrackett/phonegap-ga-plugin`
 
 ### Cordova
 
-`cordova plugin install https://github.com/neilrackett/phonegap-ga-plugin`
+`cordova plugin add https://github.com/neilrackett/phonegap-ga-plugin`
 
 ## Usage
 The plugin creates the object `window.plugins.gaPlugin
