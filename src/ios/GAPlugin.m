@@ -74,27 +74,30 @@
 
 /*
  * Track e-commerce transactions
- * args = [string transactionID, string affiliation, Number revenue, Number tax, Number shipping,String currencyCode]
+ * args = [string transactionID, string affiliation, Number revenue, Number tax, Number shipping,String currencyCode (ignored)]
  */
 - (void) trackTransaction:(CDVInvokedUrlCommand*)command
 {
     // Num formatter
+    
+    
     NSNumberFormatter * numFormatter = [[NSNumberFormatter alloc] init];
     [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     
-    // Assumes a tracker has already been initialized with a property ID, otherwise
-    // this call returns null.
-    id tracker = [[GAI sharedInstance] defaultTracker];
+    NSString *transactionID     =  [command.arguments objectAtIndex:0];
+    NSString *affiliation    =  [command.arguments objectAtIndex:1];
+    NSNumber *totalTax         =  [command.arguments objectAtIndex:3];
+    NSNumber *totalShipping    =  [command.arguments objectAtIndex:4];
+    NSNumber *totalRevenue    =  [command.arguments objectAtIndex:2];
     
-    [tracker send:[[GAIDictionaryBuilder createTransactionWithId:[[command.arguments objectAtIndex:0]             // (NSString) Transaction ID
-                                                     affiliation:[[command.arguments objectAtIndex:1]         // (NSString) Affiliation
-                                                         revenue:[numFormatter numberFromString:[command.arguments objectAtIndex:2]] * @1000000                  // (NSNumber) Order revenue (including tax and shipping)
-                                                             tax:[numFormatter numberFromString:[command.arguments objectAtIndex:3]] * @1000000                 // (NSNumber) Tax
-                                                        shipping:[numFormatter numberFromString:[command.arguments objectAtIndex:4]] * @1000000                      // (NSNumber) Shipping
-                                                    currencyCode:[[command.arguments objectAtIndex:5]] build]];        // (NSString) Currency code
-
-    // Release the num formatter from memory
-    [numFormatter release];    
+    GAITransaction *transaction =
+    [GAITransaction transactionWithId:transactionID            // (NSString) Transaction ID, should be unique.
+                      withAffiliation:affiliation];      // (NSString) Affiliation
+    transaction.taxMicros = (int64_t)([totalTax doubleValue] * 1000000);           // (int64_t) Total tax (in micros)
+    transaction.shippingMicros = (int64_t)([totalShipping doubleValue] * 1000000);                   // (int64_t) Total shipping (in micros)
+    transaction.revenueMicros = (int64_t)([totalRevenue doubleValue] * 1000000);       // (int64_t) Total revenue (in micros)
+    
+    [[GAI sharedInstance].defaultTracker sendTransaction:transaction]; // Send the transaction.
 }
 
 
