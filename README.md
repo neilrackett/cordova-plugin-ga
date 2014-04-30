@@ -5,33 +5,15 @@
 ## Preparation:
 Before you can begin collecting metrics data, you need to set up a GoogleAnalytics Mobile App account so you can view them. When you do so, you will obtain an app tracking id which we'll use during session initialization. Start by going to the [Google Analytics](http://www.google.com/analytics/features/mobile-app-analytics.html) site and click on the **Create an Account** button. Once signed in, click on the **Admin** button and the **+ New Account** button under the **Accounts** tab. At the top of the resulting tab, select the **App** button in answer to the **What would you like to track?** query. Fill out the form as appropriate. Complete instructions can be found [here](http://www.google.com/analytics/features/mobile-app-analytics.html).
 
-## Installation:
+## Installation (local only)
 
-### local
+### PhoneGap
 
-Add the following feature tag in your config.xml
+`phonegap local plugin install https://github.com/neilrackett/phonegap-ga-plugin`
 
-	<feature name="GAPlugin" >
-		< param name="android-package" value="com.adobe.plugins.GAPlugin"/>
-	</feature>
+### Cordova
 
-This plugin is based on [plugman](https://github.com/apache/cordova-plugman). to install it to your app,
-simply execute plugman as follows;
-
-	plugman install --platform [PLATFORM] --project [TARGET-PATH] --plugin [PLUGIN-PATH]
-
-	where
-		[PLATFORM] = ios or android
-		[TARGET-PATH] = path to folder containing your xcode project
-		[PLUGIN-PATH] = path to folder containing this plugin
-		
-For additional info, take a look at the [Plugman Documentation](https://github.com/apache/cordova-plugman/blob/master/README.md)
-
-### PhoneGap Build
-
-To use this plugin with PhoneGap Build, add the following plugin reference to your config.xml
-
-	<gap:plugin name="com.adobe.plugins.gaplugin" />
+`cordova plugin install https://github.com/neilrackett/phonegap-ga-plugin`
 
 ## Usage
 The plugin creates the object `window.plugins.gaPlugin
